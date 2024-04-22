@@ -1,11 +1,16 @@
 package com.kmbl.InventoryManagementService.Service;
 
 import com.kmbl.InventoryManagementService.models.Seller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+@Service
 public class SellerServiceImpl implements  SellerServiceInterface{
 
 
+    @Autowired
+    Seller seller;
     @Override
     public String createSeller(Seller seller) {
         return null;
