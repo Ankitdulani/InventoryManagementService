@@ -1,8 +1,8 @@
 package com.kmbl.InventoryManagementService.service;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kmbl.InventoryManagementService.models.Inventory;
@@ -18,8 +18,8 @@ public class InventoryService {
     }
 
     //Get All Inventory Items
-    public List<Inventory> getAllInventoryItems(){
-        return inventoryRepository.findAll();
+    public Iterable<Inventory> getAllInventoryItems(){
+        return inventoryRepository.findAll(); 
     }
 
     //Get inventory item by ID
@@ -40,6 +40,7 @@ public class InventoryService {
         Inventory existingItem = existingItemOptional.get();
         existingItem.setQuantity(inventory.getQuantity());
         existingItem.setPrice(inventory.getPrice());
+        existingItem.setSellerId(inventory.getSellerId());
 
         return inventoryRepository.save(existingItem);
     }

@@ -1,6 +1,5 @@
 package com.kmbl.InventoryManagementService.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -31,8 +30,8 @@ public class InventoryController {
 
     //Get All Inventory Items
     @GetMapping
-    public ResponseEntity<List<Inventory>> getAllInventoryItems(){
-        List<Inventory> inventoryItems = inventoryService.getAllInventoryItems();
+    public ResponseEntity<Iterable<Inventory>> getAllInventoryItems(){
+        Iterable<Inventory> inventoryItems = inventoryService.getAllInventoryItems();
         return new ResponseEntity<>(inventoryItems, HttpStatus.OK);
     }
     
