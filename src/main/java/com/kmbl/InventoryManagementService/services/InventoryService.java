@@ -1,4 +1,4 @@
-package com.kmbl.InventoryManagementService.service;
+package com.kmbl.InventoryManagementService.services;
 
 import java.util.Optional;
 

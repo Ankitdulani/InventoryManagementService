@@ -1,4 +1,4 @@
-package com.kmbl.InventoryManagementService.controller;
+package com.kmbl.InventoryManagementService.controllers;
 
 import com.kmbl.InventoryManagementService.models.Product;
 import com.kmbl.InventoryManagementService.services.ProductService;
