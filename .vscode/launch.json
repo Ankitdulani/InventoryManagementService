@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-InventoryManagementServiceApplication<InventoryManagementService>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.kmbl.InventoryManagementService.InventoryManagementServiceApplication",
+            "projectName": "InventoryManagementService",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
