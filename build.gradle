@@ -1,39 +1,40 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.5'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.kmbl'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+    sourceCompatibility = '17'
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-batch'
 //	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.batch:spring-batch-test'
-	implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.64'
-	implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
-	implementation 'org.springframework.data:spring-data-releasetrain:Lovelace-SR16'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.64'
+    implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
+    implementation 'org.springframework.data:spring-data-releasetrain:Lovelace-SR16'
+    implementation 'org.springframework.integration:spring-integration-kafka:6.2.4'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
