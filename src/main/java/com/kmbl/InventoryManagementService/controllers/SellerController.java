@@ -3,7 +3,9 @@ package com.kmbl.InventoryManagementService.controllers;
 import com.kmbl.InventoryManagementService.models.Seller;
 import com.kmbl.InventoryManagementService.service.SellerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,36 +25,55 @@ public class SellerController {
 
 
 
-    @GetMapping(value = "{sellerID}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{sellerID}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Seller getSeller(String sellerID) {
+    public ResponseEntity<Seller>  getSeller( @PathVariable("sellerID") String sellerID) {
 
-        return sellerService.getSeller(sellerID);
+        Seller item= sellerService.getSeller(sellerID);
+        if (item==null)
+        {
+            return new ResponseEntity<>(item, HttpStatus.OK);
+        }
+
+             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
-    @GetMapping
-    public List<Seller> getAllSellerItems(){
+
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Seller>> getAllSellerItems(){
         List<Seller> sellerItems = sellerService.getAllSellers();
-        return sellerItems;
+        return new ResponseEntity<>(sellerItems, HttpStatus.OK);
+
 
     }
 
     @PostMapping
-    public String createSellerDetails(@RequestBody Seller seller) {
+    public ResponseEntity<HttpStatus> createSellerDetails(@RequestBody Seller seller) {
 
-        sellerService.createSeller(seller);
-        return "Seller created auccessfully!";
+        return  new ResponseEntity<>( HttpStatus.CREATED);
+
+
     }
 
     @DeleteMapping("/{sellerID}")
-    public String deleteSellerDetails(@PathVariable("SellerID") String id) {
+    public ResponseEntity<Seller> deleteSellerDetails(@PathVariable("SellerID") String id) {
         sellerService.deleteSeller(id);
-        return "Seller Deleted!";
+
+        Seller existingItem = sellerService.getSeller(id);
+        if(existingItem==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        sellerService.deleteSeller(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
-    @PutMapping("/Seller/{id}")
-    public String updateSeller(@PathVariable("id") String id, Seller seller) {
+    @PutMapping("/{SellerID}")
+    public ResponseEntity<HttpStatus> updateSeller(@PathVariable("id") String SellerID, @RequestBody Seller seller) {
 
-        return sellerService.updateSeller(id, seller);
+         sellerService.updateSeller(SellerID, seller);
+         return  new ResponseEntity<>( HttpStatus.OK);
     }
 }

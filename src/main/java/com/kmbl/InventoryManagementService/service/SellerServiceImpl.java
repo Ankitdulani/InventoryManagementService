@@ -20,28 +20,28 @@ public class SellerServiceImpl implements  SellerServiceInterface{
 
 
     @Override
-    public String createSeller(Seller seller) {
+    public void createSeller(Seller seller) {
         sellerRepository.save(seller);
-        return "saved!";
+
     }
 
     @Override
-    public String updateSeller(String sellerID,Seller seller) {
+    public void updateSeller(String sellerID,Seller seller) {
         Seller existingSeller = sellerRepository.findById(sellerID).orElse(null);
         if(existingSeller == null){
-            
-            return "seller doesn't exist!";
+
+            return ;
         }
 
         existingSeller=seller;
        sellerRepository.save(existingSeller);
-        return "updated!";
+
     }
 
     @Override
-    public String deleteSeller(String sellerID) {
+    public void deleteSeller(String sellerID) {
          sellerRepository.deleteById(sellerID);
-         return "deleted!";
+
     }
 
     @Override

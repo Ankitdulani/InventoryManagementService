@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface SellerServiceInterface {
 
-    public String createSeller(Seller seller);
-    public String updateSeller(String sellerID,Seller seller);
-    public  String deleteSeller(String sellerID);
+    public void createSeller(Seller seller);
+    public void updateSeller(String sellerID,Seller seller);
+    public  void deleteSeller(String sellerID);
     public Seller getSeller(String sellerID);
     public List<Seller> getAllSellers();
 }
