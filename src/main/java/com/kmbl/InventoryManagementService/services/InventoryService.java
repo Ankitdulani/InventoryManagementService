@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.kmbl.InventoryManagementService.repositories.InventoryRepository;
 @Service
 public class InventoryService {
     private static final Logger logger = LogManager.getLogger(InventoryService.class);
+
     private final InventoryRepository inventoryRepository;
 
     @Autowired
@@ -22,13 +24,17 @@ public class InventoryService {
 
     //Get All Inventory Items
     public Iterable<Inventory> getAllInventoryItems(){
+
         logger.info("Fetching All Inventory Items");
+
         return inventoryRepository.findAll(); 
     }
 
     //Get inventory item by ID
     public Optional<Inventory> getInventoryItemById(String id){
+
         logger.info("Fetching Inventory Item by ID");
+
         return inventoryRepository.findById(id);
     }
 
