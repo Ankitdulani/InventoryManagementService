@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@EnableDynamoDBRepositories(basePackages = "com.kmbl.InventoryManagementService.repository")
+@EnableDynamoDBRepositories(basePackages = "com.kmbl.InventoryManagementService.repositories")
 public class DynamoDBConfig {
 
     @Value("${amazon.dynamodb.endpoint}")

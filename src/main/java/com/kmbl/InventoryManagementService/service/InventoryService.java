@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kmbl.InventoryManagementService.models.Inventory;
-import com.kmbl.InventoryManagementService.repository.InventoryRepository;
+import com.kmbl.InventoryManagementService.repositories.InventoryRepository;
 
 @Service
 public class InventoryService {
@@ -32,17 +32,10 @@ public class InventoryService {
         return inventoryRepository.save(inventory);
     }
 
-    public Inventory updateInventoryItem(String id, Inventory inventory){
-        Optional<Inventory> existingItemOptional = inventoryRepository.findById(id);
-        if(existingItemOptional.isEmpty()){
-            return null;
-        }
-        Inventory existingItem = existingItemOptional.get();
-        existingItem.setQuantity(inventory.getQuantity());
-        existingItem.setPrice(inventory.getPrice());
-        existingItem.setSellerId(inventory.getSellerId());
+    public Inventory updateInventoryItem(String id, Inventory updatedInventory){
+        updatedInventory.setId(id);
 
-        return inventoryRepository.save(existingItem);
+        return inventoryRepository.save(updatedInventory);
     }
 
     public void deleteInventory(String id){

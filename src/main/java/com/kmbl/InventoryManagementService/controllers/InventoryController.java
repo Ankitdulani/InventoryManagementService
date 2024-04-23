@@ -2,6 +2,7 @@ package com.kmbl.InventoryManagementService.controllers;
 
 import java.util.Optional;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class InventoryController {
     }
 
     //Get All Inventory Items
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Iterable<Inventory>> getAllInventoryItems(){
         Iterable<Inventory> inventoryItems = inventoryService.getAllInventoryItems();
         return new ResponseEntity<>(inventoryItems, HttpStatus.OK);
