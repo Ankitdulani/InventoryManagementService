@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kmbl.InventoryManagementService.models.Inventory;
-import com.kmbl.InventoryManagementService.service.InventoryService;
+import com.kmbl.InventoryManagementService.services.InventoryService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

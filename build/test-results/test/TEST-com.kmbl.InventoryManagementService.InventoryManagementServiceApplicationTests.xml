@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kmbl.InventoryManagementService.InventoryManagementServiceApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-04-23T11:30:14" hostname="kbmk23-00000447" time="0.847">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.kmbl.InventoryManagementService.InventoryManagementServiceApplicationTests" time="0.847"/>
+  <system-out><![CDATA[Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+17:00:10.844 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.kmbl.InventoryManagementService.InventoryManagementServiceApplicationTests]: InventoryManagementServiceApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:00:10.966 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.kmbl.InventoryManagementService.InventoryManagementServiceApplication for test class com.kmbl.InventoryManagementService.InventoryManagementServiceApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2024-04-23T17:00:11.368+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] ventoryManagementServiceApplicationTests : Starting InventoryManagementServiceApplicationTests using Java 18 with PID 36445 (started by kmbl317984 in /Users/kmbl317984/Documents/InventoryManagementService)
+2024-04-23T17:00:11.370+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] ventoryManagementServiceApplicationTests : No active profile set, falling back to 1 default profile: "default"
+2024-04-23T17:00:12.117+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data DynamoDB repositories in DEFAULT mode.
+2024-04-23T17:00:12.165+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 45 ms. Found 3 DynamoDB repository interfaces.
+2024-04-23T17:00:12.765+05:30  WARN 36445 --- [InventoryManagementService] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'dynamoDBConfig' of type [com.kmbl.InventoryManagementService.configuration.DynamoDBConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2024-04-23T17:00:12.838+05:30  WARN 36445 --- [InventoryManagementService] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'amazonAWSCredentials' of type [com.amazonaws.auth.BasicAWSCredentials] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2024-04-23T17:00:13.128+05:30  WARN 36445 --- [InventoryManagementService] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'amazonDynamoDB' of type [com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2024-04-23T17:00:13.174+05:30  WARN 36445 --- [InventoryManagementService] [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'dynamoDB-DynamoDBMapperConfig' of type [com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2024-04-23T17:00:13.350+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] o.s.s.d.d.r.s.DynamoDBRepositoryFactory  : Spring Data DynamoDB Version: 5.1.0 (2.1)
+2024-04-23T17:00:13.351+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] o.s.s.d.d.r.s.DynamoDBRepositoryFactory  : Spring Data Version:          3.2.5
+2024-04-23T17:00:13.351+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] o.s.s.d.d.r.s.DynamoDBRepositoryFactory  : AWS SDK Version:              1.11.64
+2024-04-23T17:00:13.351+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] o.s.s.d.d.r.s.DynamoDBRepositoryFactory  : Java Version:                 18 - Java HotSpot(TM) 64-Bit Server VM 18+36-2087
+2024-04-23T17:00:13.351+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] o.s.s.d.d.r.s.DynamoDBRepositoryFactory  : Platform Details:             Mac OS X 14.3.1
+2024-04-23T17:00:13.352+05:30  WARN 36445 --- [InventoryManagementService] [    Test worker] o.s.s.d.d.r.s.DynamoDBRepositoryFactory  : This Spring Data DynamoDB implementation might not be compatible with the available Spring Data classes on the classpath!
+NoDefClassFoundExceptions or similar might occur!
+2024-04-23T17:00:14.023+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] d.d.r.u.Entity2DynamoDBTableSynchronizer : Checking repository classes with DynamoDB tables inventory, product, product for ContextRefreshedEvent
+2024-04-23T17:00:14.254+05:30  INFO 36445 --- [InventoryManagementService] [    Test worker] ventoryManagementServiceApplicationTests : Started InventoryManagementServiceApplicationTests in 3.169 seconds (process running for 4.409)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

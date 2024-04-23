@@ -1,7 +1,8 @@
-package com.kmbl.InventoryManagementService.controller;
+package com.kmbl.InventoryManagementService.controllers;
 
 import com.kmbl.InventoryManagementService.models.Product;
 import com.kmbl.InventoryManagementService.services.ProductService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

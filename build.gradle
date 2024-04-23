@@ -32,6 +32,8 @@ dependencies {
 	implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.64'
 	implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
 	implementation 'org.springframework.data:spring-data-releasetrain:Lovelace-SR16'
+	implementation 'org.apache.logging.log4j:log4j-api:2.23.1'
+	implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
 }
 
 tasks.named('test') {

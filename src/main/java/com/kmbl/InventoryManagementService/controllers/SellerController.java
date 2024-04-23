@@ -1,7 +1,7 @@
-package com.kmbl.InventoryManagementService.controller;
+package com.kmbl.InventoryManagementService.controllers;
 
 import com.kmbl.InventoryManagementService.models.Seller;
-import com.kmbl.InventoryManagementService.service.SellerServiceImpl;
+import com.kmbl.InventoryManagementService.services.SellerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
