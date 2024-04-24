@@ -1,6 +1,10 @@
 package com.kmbl.InventoryManagementService.controllers;
 
 import com.kmbl.InventoryManagementService.exceptions.ResourceNotFoundException;
+import java.util.List;
+import java.util.Optional;
+
+import com.kmbl.InventoryManagementService.models.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kmbl.InventoryManagementService.models.Inventory;
 import com.kmbl.InventoryManagementService.services.InventoryService;
+import com.kmbl.InventoryManagementService.service.InventoryService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,5 +75,17 @@ public class InventoryController {
         } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        inventoryService.deleteInventory(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
+    @PostMapping
+    public ResponseEntity<ResponseBody> updateInventoryforOrderItems(@RequestBody List<OrderRequestBody> orderRequestBodies) {
+        ResponseBody responseItems=inventoryService.updateInventoryforOrder(orderRequestBodies);
+        if(responseItems==null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+         return  new ResponseEntity<>(responseItems,HttpStatus.OK);
     }
 }

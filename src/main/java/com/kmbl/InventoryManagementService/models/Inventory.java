@@ -24,6 +24,10 @@ public class Inventory {
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "productandseller-index",attributeName = "productid")
     private String productId;
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @DynamoDBAttribute
     private int quantity;
 
@@ -32,4 +36,9 @@ public class Inventory {
 
     @DynamoDBAttribute
     List<Integer> pincodes;
+
+    public int getQuantity()
+    {
+        return quantity;
+    }
 }
