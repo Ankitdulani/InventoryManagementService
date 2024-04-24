@@ -2,6 +2,7 @@ package com.kmbl.InventoryManagementService.services;
 
 import java.util.Optional;
 
+import com.kmbl.InventoryManagementService.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,12 @@ public class InventoryService {
     }
 
     //Get inventory item by ID
-    public Optional<Inventory> getInventoryItemById(String id){
-        return inventoryRepository.findById(id);
+    public Inventory getInventoryItemById(String id) throws ResourceNotFoundException {
+        Optional<Inventory> optionalInventory = inventoryRepository.findById(id);
+        if(optionalInventory.isPresent()) {
+          return optionalInventory.get();
+        }
+        throw new ResourceNotFoundException("Inventory Id : {} is not present");
     }
 
     //create a new inventory

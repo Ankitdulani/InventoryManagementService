@@ -1,5 +1,6 @@
 package com.kmbl.InventoryManagementService.controllers;
 
+import com.kmbl.InventoryManagementService.exceptions.ResourceNotFoundException;
 import com.kmbl.InventoryManagementService.models.Product;
 import com.kmbl.InventoryManagementService.services.ProductService;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,11 @@ public class ProductController {
 
     @GetMapping(value = "{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> getProduct(@PathVariable String productId) {
-        Product product = productService.getProductById(productId);
-        if(product == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        try {
+            Product product = productService.getProductById(productId);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

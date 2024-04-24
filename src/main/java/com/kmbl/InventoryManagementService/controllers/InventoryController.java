@@ -1,7 +1,6 @@
 package com.kmbl.InventoryManagementService.controllers;
 
-import java.util.Optional;
-
+import com.kmbl.InventoryManagementService.exceptions.ResourceNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -38,9 +36,12 @@ public class InventoryController {
     
     @GetMapping("/{id}")
     public ResponseEntity<Inventory> getAllInventoryItemById(@PathVariable("id") String id){
-        Optional<Inventory> inventoryItems = inventoryService.getInventoryItemById(id);
-        return inventoryItems.map(item -> new ResponseEntity<>(item, HttpStatus.OK))
-        .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            Inventory inventoryItems = inventoryService.getInventoryItemById(id);
+            return new ResponseEntity<>(inventoryItems, HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
@@ -50,24 +51,24 @@ public class InventoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Inventory> updateInventoryItem(@PathVariable("id") String id, @RequestBody Inventory updatedItem){
-        Optional<Inventory> existingItem = inventoryService.getInventoryItemById(id);
-        if(existingItem.isEmpty()){
+    public ResponseEntity<Inventory> updateInventoryItem(@PathVariable("id") String id, @RequestBody Inventory updatedItem) throws ResourceNotFoundException {
+        try {
+            Inventory existingItem = inventoryService.getInventoryItemById(id);
+            Inventory savedItem = inventoryService.updateInventoryItem(existingItem.getId(), updatedItem);
+            return new ResponseEntity<>(savedItem, HttpStatus.OK);
+        } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Inventory savedItem = inventoryService.updateInventoryItem(id, updatedItem);
-        return new ResponseEntity<>(savedItem, HttpStatus.OK);
-       
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Inventory> deleteInventoryItem(@PathVariable("id") String id){
-        Optional<Inventory> existingItem = inventoryService.getInventoryItemById(id);
-        if(existingItem.isEmpty()){
+        try {
+            Inventory existingItem = inventoryService.getInventoryItemById(id);
+            inventoryService.deleteInventory(existingItem.getId());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        inventoryService.deleteInventory(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-       
     }
 }
