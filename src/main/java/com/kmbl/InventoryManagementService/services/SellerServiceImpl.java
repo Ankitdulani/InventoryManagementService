@@ -1,5 +1,6 @@
 package com.kmbl.InventoryManagementService.services;
 
+import com.kmbl.InventoryManagementService.exceptions.ResourceNotFoundException;
 import com.kmbl.InventoryManagementService.models.Seller;
 import com.kmbl.InventoryManagementService.repositories.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,39 +15,36 @@ public class SellerServiceImpl implements  SellerServiceInterface{
 
     @Autowired
     public SellerServiceImpl(SellerRepository sellerRepository) {
-
         this.sellerRepository = sellerRepository;
     }
 
 
     @Override
-    public void createSeller(Seller seller) {
-        sellerRepository.save(seller);
-
+    public Seller createSeller(Seller seller) {
+        return sellerRepository.save(seller);
     }
 
     @Override
-    public void updateSeller(String sellerID,Seller seller) {
+    public Seller updateSeller(String sellerID, Seller seller) throws ResourceNotFoundException {
         Seller existingSeller = sellerRepository.findById(sellerID).orElse(null);
         if(existingSeller == null){
-
-            return ;
+            throw new ResourceNotFoundException("Seller Id : {} is not present");
         }
-
-        existingSeller=seller;
-       sellerRepository.save(existingSeller);
-
+        return sellerRepository.save(seller);
     }
 
     @Override
     public void deleteSeller(String sellerID) {
          sellerRepository.deleteById(sellerID);
-
     }
 
     @Override
-    public Seller getSeller(String sellerID) {
-        return sellerRepository.findById(sellerID).orElse(null);
+    public Seller getSeller(String sellerID) throws ResourceNotFoundException {
+        Seller seller = sellerRepository.findById(sellerID).orElse(null);
+        if(seller == null) {
+            throw new ResourceNotFoundException("Seller Id : {} is not present");
+        }
+        return seller;
     }
 
     @Override
