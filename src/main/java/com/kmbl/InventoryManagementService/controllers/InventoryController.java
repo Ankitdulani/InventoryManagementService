@@ -79,7 +79,7 @@ public class InventoryController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
-    @PostMapping
+    @PostMapping("/api/updateInventory")
     public ResponseEntity<ResponseBody> updateInventoryforOrderItems(@RequestBody List<OrderRequestBody> orderRequestBodies) {
         ResponseBody responseItems=inventoryService.updateInventoryforOrder(orderRequestBodies);
         if(responseItems==null)

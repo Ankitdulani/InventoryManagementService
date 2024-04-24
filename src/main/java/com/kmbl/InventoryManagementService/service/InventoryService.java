@@ -1,5 +1,6 @@
 package com.kmbl.InventoryManagementService.service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
@@ -52,21 +53,30 @@ public class InventoryService {
     public ResponseBody  updateInventoryforOrder(List<OrderRequestBody> orderRequestItems)
     {
         //get list of inventory
-            synchronized (this) {
+           synchronized (this) {
                 InventoryOrderStatus overallStatus=InventoryOrderStatus.FAILED_ORDER;
-
+              //  List<ResponseObject> tempResponse=new ArrayList<>();
                 ResponseBody response = new ResponseBody();
                 for(int i=0;i<orderRequestItems.size();i++) {
 
                     ResponseObject responseObject=new ResponseObject();
-                    Inventory tempInventory = inventoryRepository.findByProductandSeller(orderRequestItems.get(i).getProductID(), orderRequestItems.get(i).getSellerID());
+                    List<Inventory> tempInventory = inventoryRepository.findByproductId(orderRequestItems.get(i).getProductID());
+                    //, orderRequestItems.get(i).getSellerID());
+                    Inventory inventoryFinal=null;
+                    for(int j=0;j<tempInventory.size();j++)
+                    {
+                        if(tempInventory.get(j).getSellerId()==orderRequestItems.get(j).getSellerID())
+                        {
+                            inventoryFinal=tempInventory.get(j);
+                        }
+                    }
                     Integer tempCount = 0;
 
 
                     InventoryOrderStatus tempStatus = InventoryOrderStatus.FAILED_ORDER;
 
 
-                    if (tempInventory == null || tempInventory.getQuantity() == 0) {
+                    if (inventoryFinal==null || inventoryFinal.getQuantity() == 0) {
                         tempCount = 0;
                         tempStatus = InventoryOrderStatus.FAILED_ORDER;
                     } else {
@@ -74,13 +84,13 @@ public class InventoryService {
                       //create response
                         overallStatus=InventoryOrderStatus.PARTIAL_ORDER;
                         int orderCountNeeded=orderRequestItems.get(i).getCount();
-                        tempCount = (tempInventory.getQuantity() < orderCountNeeded) ? tempInventory.getQuantity() : orderCountNeeded);
+                        tempCount = (inventoryFinal.getQuantity() < orderCountNeeded) ? inventoryFinal.getQuantity() : orderCountNeeded;
                         tempStatus = (tempCount == orderRequestItems.get(i).getCount()) ? InventoryOrderStatus.COMPLETE_ORDER : InventoryOrderStatus.PARTIAL_ORDER;
                         //update the changes
-                        int inventoryUpdatedCount=tempInventory.getQuantity()-orderCountNeeded;
-                        int newQuantity = orderCountNeeded < tempInventory.getQuantity() ?inventoryUpdatedCount:0;
-                        tempInventory.setQuantity(newQuantity);
-                        inventoryRepository.save(tempInventory);
+                        int inventoryUpdatedCount=inventoryFinal.getQuantity()-orderCountNeeded;
+                        int newQuantity = orderCountNeeded < inventoryFinal.getQuantity() ?inventoryUpdatedCount:0;
+                        inventoryFinal.setQuantity(newQuantity);
+                        inventoryRepository.save(inventoryFinal);
                     }
                     //create orderitem for responseobject
                         OrderItem tempOrderItem=new OrderItem();
@@ -102,5 +112,6 @@ public class InventoryService {
 
                 return response;
             }
+
     }
 }

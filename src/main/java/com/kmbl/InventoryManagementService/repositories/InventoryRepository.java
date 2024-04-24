@@ -13,5 +13,9 @@ import java.util.Optional;
 @Repository
 @EnableScan
 public interface InventoryRepository extends DynamoDBCrudRepository<Inventory, String> {
+
+    List<Inventory> findByproductId(String productId);
+
+    
     Optional<Inventory> findBySellerIdAndProductId(String sellerId, String productId);
 }

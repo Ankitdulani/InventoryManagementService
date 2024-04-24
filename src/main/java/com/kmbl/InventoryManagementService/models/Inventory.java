@@ -16,12 +16,20 @@ public class Inventory {
     @DynamoDBHashKey(attributeName = "id")
     private String id;
 
-    @DynamoDBAttribute
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "productandseller-index",attributeName = "sellerid")
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    @DynamoDBAttribute(attributeName = "sellerId")
+    //@DynamoDBIndexRangeKey(globalSecondaryIndexName = "productIdandsellerId-index",attributeName = "productid")
     private String sellerId;
 
-    @DynamoDBAttribute
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "productandseller-index",attributeName = "productid")
+    @DynamoDBAttribute(attributeName = "productId")
+   // @DynamoDBIndexHashKey(globalSecondaryIndexName = "productIdandsellerId-index",attributeName = "sellerid")
     private String productId;
 
     public void setQuantity(int quantity) {

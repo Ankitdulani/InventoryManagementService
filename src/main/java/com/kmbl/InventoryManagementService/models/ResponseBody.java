@@ -1,10 +1,15 @@
 package com.kmbl.InventoryManagementService.models;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseBody {
     private InventoryOrderStatus inventoryOrderStatus;
-    private List<ResponseObject> responseObjects;
+    private List<ResponseObject> responseObjects=new ArrayList<>();
 
 
 
@@ -28,6 +33,7 @@ public class ResponseBody {
     }
 
     public void addResponseObject(ResponseObject responseObject) {
+
         responseObjects.add(responseObject);
     }
 
