@@ -10,6 +10,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.ContainerProperties;
+import org.springframework.kafka.listener.DefaultErrorHandler;
+import org.springframework.util.backoff.BackOff;
+import org.springframework.util.backoff.ExponentialBackOff;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +26,12 @@ public class KafkaConfig {
 
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
+
+    @Value(value = "${kafka.backoff.interval}")
+    private Long interval;
+
+    @Value(value = "${kafka.backoff.mutlipier}")
+    private Long multiplier;
 
     @Bean
     public ProducerFactory<String, String> producerFactory() {
@@ -49,7 +60,20 @@ public class KafkaConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setCommonErrorHandler(errorHandler());
+        // acknowledge after publishing
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.RECORD);
         factory.setConsumerFactory(consumerFactory());
         return factory;
+    }
+
+    @Bean
+    public DefaultErrorHandler errorHandler() {
+        BackOff fixedBackOff= new FixedBackOff(interval,multiplier);
+        DefaultErrorHandler errorHandler = new DefaultErrorHandler((consumerRecord, exception) -> {
+            // logic to execute when all the retry attemps are exhausted
+            // TODO: add message to the failed queue
+        }, fixedBackOff);
+        return errorHandler;
     }
 }

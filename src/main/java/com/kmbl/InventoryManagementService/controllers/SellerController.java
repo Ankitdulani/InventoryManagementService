@@ -33,7 +33,7 @@ public class SellerController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Seller>> getAllSellerItems(){
+    public ResponseEntity<List<Seller>> getAllSellerItems() {
         List<Seller> sellerItems = sellerService.getAllSellers();
         return new ResponseEntity<>(sellerItems, HttpStatus.OK);
     }

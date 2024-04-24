@@ -1,5 +1,6 @@
 package com.kmbl.InventoryManagementService.models.kafka;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PreBookingMessage implements Message {
+public class CancelOrderMessage implements Message {
 
     private String orderId;
     private List<OrderItem> orderItems;
@@ -18,20 +19,22 @@ public class PreBookingMessage implements Message {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    class OrderItem{
+    public static class OrderItem{
         private String productId;
-        private String quantity;
+        private int quantity;
         private String sellerId;
         private Date date;
     }
 
+    @JsonIgnore
     @Override
     public String getMessage() {
         return this.toString();
     }
 
+    @JsonIgnore
     @Override
     public KafkaMessagesType getType() {
-        return KafkaMessagesType.PRE_BOOKED;
+        return KafkaMessagesType.DELETED_ORDER;
     }
 }

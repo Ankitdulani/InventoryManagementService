@@ -1,15 +1,15 @@
 package com.kmbl.InventoryManagementService.models.kafka;
 
-public enum KafkaMessagesType {
-    PRE_BOOKED("prebook-queue"), ACKNOWLEDGEMENT("acknowledged-queue");
+import lombok.Getter;
 
-    KafkaMessagesType(String topic){
+@Getter
+public enum KafkaMessagesType {
+    DELETED_ORDER("delete-order-queue"), PAYMENT("payments-queue");
+
+    KafkaMessagesType(String topic) {
         kafkaTopic = topic.toLowerCase();
     }
 
-    private String kafkaTopic;
+    private final String kafkaTopic;
 
-    public String getKafkaTopic() {
-        return kafkaTopic;
-    }
 }

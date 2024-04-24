@@ -9,7 +9,7 @@ import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class AcknowledgmentMessage implements Message {
+public class PaymentMessage implements Message {
 
     String orderId;
     String status;
@@ -24,6 +24,6 @@ public class AcknowledgmentMessage implements Message {
 
     @Override
     public KafkaMessagesType getType() {
-        return KafkaMessagesType.ACKNOWLEDGEMENT;
+        return KafkaMessagesType.PAYMENT;
     }
 }

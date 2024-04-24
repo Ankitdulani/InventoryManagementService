@@ -1,20 +1,38 @@
 package com.kmbl.InventoryManagementService.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kmbl.InventoryManagementService.exceptions.ServiceException;
 import com.kmbl.InventoryManagementService.models.kafka.Message;
+import com.kmbl.InventoryManagementService.models.kafka.CancelOrderMessage;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
+import static com.kmbl.InventoryManagementService.exceptions.KafkaProcessingException.KafkaException.INCORRECT_FORMAT;
+import static com.kmbl.InventoryManagementService.exceptions.KafkaProcessingException.KafkaException.MISSING_ORDER_ITEM;
+
+@Slf4j
 @Component
 public class KafkaMessagingService implements MessagingService{
 
     private KafkaTemplate<String, String> kafkaTemplate;
+    private ObjectMapper objectMapper;
+    private InventoryService inventoryService;
 
-    public KafkaMessagingService(KafkaTemplate<String, String> template){
+    private final String errorLogFormat = " DATE: %s - TYPE : { %s }";
+    private final String errorLogFormatWithMessage = " DATE: %s - TYPE : { %s } - Message : { %s }";
+
+    @Autowired
+    public KafkaMessagingService(KafkaTemplate<String, String> template, ObjectMapper mapper,InventoryService iService){
         kafkaTemplate = template;
+        objectMapper = mapper;
+        inventoryService = iService;
     }
 
     @Override
@@ -23,15 +41,42 @@ public class KafkaMessagingService implements MessagingService{
         kafkaTemplate.send(message.getType().getKafkaTopic(),message.getMessage());
     }
 
-    @KafkaListener(topics = "prebooking" ,
+    /*
+    TODO:
+        adding multiple consumer
+        making consumer idempotent
+        partition of data
+    */
+    @KafkaListener(topics = "delete-order-queue",
                     groupId = "consumerGroup-" + "#{T(java.util.UUID).randomUUID()}",
                     autoStartup = "true")
-    public void listenWithHeaders(@Payload String message) {
+    public void orderDelete(@Payload String kafkaMessage)  {
 
-        //handle exception, adding multiple consumer, making consumer idempotent
-        // consumer group acknowledgment
-        System.out.println(  "Received Message: " + message);
+        try {
+            log.info("Message received: {}", kafkaMessage);
+            CancelOrderMessage message = objectMapper.readValue(kafkaMessage, CancelOrderMessage.class);
+            inventoryService.freeInventory(message);
+
+        }catch ( JsonProcessingException   ex){
+            log.error(String.format(errorLogFormat,new Date().toString(), INCORRECT_FORMAT),ex);
+        }catch (ServiceException ex){
+            log.error(String.format(errorLogFormatWithMessage,new Date().toString(), MISSING_ORDER_ITEM,ex.getMessage() ),ex);
+        }
     }
 
+    @KafkaListener(topics = "payments-queue",
+            groupId = "consumerGroup-" + "#{T(java.util.UUID).randomUUID()}",
+            autoStartup = "false")
+    public void paymentFailure(@Payload String kafkaMessage)  {
 
+        try {
+            CancelOrderMessage message = objectMapper.readValue(kafkaMessage, CancelOrderMessage.class);
+            inventoryService.freeInventory(message);
+
+        }catch ( JsonProcessingException   ex){
+            log.error(String.format(errorLogFormat,new Date().toString(), INCORRECT_FORMAT),ex);
+        }catch (ServiceException ex){
+            log.error(String.format(errorLogFormatWithMessage,new Date().toString(), MISSING_ORDER_ITEM,ex.getMessage() ),ex);
+        }
+    }
 }
