@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import com.kmbl.InventoryManagementService.models.Inventory;
 import com.kmbl.InventoryManagementService.models.OrderRequestBody;
 import com.kmbl.InventoryManagementService.models.ResponseBody;
-import com.kmbl.InventoryManagementService.service.InventoryService;
+import com.kmbl.InventoryManagementService.services.InventoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import com.kmbl.InventoryManagementService.models.Inventory;
 import com.kmbl.InventoryManagementService.services.InventoryService;
-import com.kmbl.InventoryManagementService.service.InventoryService;
+
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,8 +81,7 @@ public class InventoryController {
         } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        inventoryService.deleteInventory(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
 
     }
 
