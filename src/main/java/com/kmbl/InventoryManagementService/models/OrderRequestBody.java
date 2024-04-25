@@ -2,6 +2,10 @@ package com.kmbl.InventoryManagementService.models;
 
 public class OrderRequestBody {
 
+    private String productID;
+    private String sellerID;
+    private int count;
+
     public int getCount() {
         return count;
     }
@@ -25,8 +29,4 @@ public class OrderRequestBody {
     public void setProductID(String productID) {
         this.productID = productID;
     }
-
-    private String productID;
-    private String sellerID;
-   private  int count;
 }

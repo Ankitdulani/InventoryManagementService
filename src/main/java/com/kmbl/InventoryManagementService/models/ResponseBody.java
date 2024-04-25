@@ -5,12 +5,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseBody {
     private InventoryOrderStatus inventoryOrderStatus;
-    private List<ResponseObject> responseObjects=new ArrayList<>();
-
+    private List<ResponseObject> responseObjects = new ArrayList<>();
 
 
     public InventoryOrderStatus getInventoryOrderStatus() {
@@ -20,7 +20,6 @@ public class ResponseBody {
     public void setInventoryOrderStatus(InventoryOrderStatus inventoryOrderStatus) {
         this.inventoryOrderStatus = inventoryOrderStatus;
     }
-
 
 
     public List<ResponseObject> getResponseObjects() {
@@ -36,9 +35,6 @@ public class ResponseBody {
 
         responseObjects.add(responseObject);
     }
-
-
-
 
 
 }

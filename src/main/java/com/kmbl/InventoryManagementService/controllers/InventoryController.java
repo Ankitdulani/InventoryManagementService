@@ -6,11 +6,17 @@ import java.util.Optional;
 
 import com.kmbl.InventoryManagementService.models.*;
 import org.springframework.http.MediaType;
+import com.kmbl.InventoryManagementService.models.Inventory;
+import com.kmbl.InventoryManagementService.models.OrderRequestBody;
+import com.kmbl.InventoryManagementService.models.ResponseBody;
+import com.kmbl.InventoryManagementService.service.InventoryService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import com.kmbl.InventoryManagementService.models.Inventory;
 import com.kmbl.InventoryManagementService.services.InventoryService;
 import com.kmbl.InventoryManagementService.service.InventoryService;
@@ -27,18 +33,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class InventoryController {
     private final InventoryService inventoryService;
 
-    
-    public InventoryController(InventoryService inventoryService){
+
+    public InventoryController(InventoryService inventoryService) {
         this.inventoryService = inventoryService;
     }
 
     //Get All Inventory Items
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Iterable<Inventory>> getAllInventoryItems(){
+    public ResponseEntity<Iterable<Inventory>> getAllInventoryItems() {
         Iterable<Inventory> inventoryItems = inventoryService.getAllInventoryItems();
         return new ResponseEntity<>(inventoryItems, HttpStatus.OK);
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<Inventory> getAllInventoryItemById(@PathVariable("id") String id){
         try {
@@ -50,7 +56,7 @@ public class InventoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Inventory> createInventoryItem(@RequestBody Inventory inventoryItem){
+    public ResponseEntity<Inventory> createInventoryItem(@RequestBody Inventory inventoryItem) {
         Inventory createdItem = inventoryService.createInventoryItem(inventoryItem);
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
@@ -79,13 +85,13 @@ public class InventoryController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
+
     @PostMapping("/api/updateInventory")
     public ResponseEntity<ResponseBody> updateInventoryforOrderItems(@RequestBody List<OrderRequestBody> orderRequestBodies) {
-        ResponseBody responseItems=inventoryService.updateInventoryforOrder(orderRequestBodies);
-        if(responseItems==null)
-        {
+        ResponseBody responseItems = inventoryService.updateInventoryforOrder(orderRequestBodies);
+        if (responseItems == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-         return  new ResponseEntity<>(responseItems,HttpStatus.OK);
+        return new ResponseEntity<>(responseItems, HttpStatus.OK);
     }
 }

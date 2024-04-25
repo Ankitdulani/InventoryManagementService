@@ -1,7 +1,5 @@
 package com.kmbl.InventoryManagementService.models;
 
-import java.util.List;
-
 public class ResponseObject {
 
     private String status;
@@ -18,8 +16,6 @@ public class ResponseObject {
     }
 
 
-
-
     public String getStatus() {
         return status;
     }
@@ -27,7 +23,6 @@ public class ResponseObject {
     public void setStatus(String status) {
         this.status = status;
     }
-
 
 
     public OrderItem getData() {

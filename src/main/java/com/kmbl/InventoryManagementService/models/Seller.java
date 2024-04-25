@@ -24,5 +24,5 @@ public class Seller {
     private String address;
 
     @DynamoDBAttribute
-    private double  rating;
+    private double rating;
 }

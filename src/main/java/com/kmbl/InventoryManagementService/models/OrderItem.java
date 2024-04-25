@@ -1,13 +1,18 @@
 package com.kmbl.InventoryManagementService.models;
 
 
-
 import java.util.Date;
 
 public class OrderItem {
 
 
-
+    private String sellerId;
+    private Date createdAt;
+    private Date updatedAt;
+    private String orderItemId;
+    private String productId;
+    private String quantity;
+    private OrderStatus status;
 
     public String getProductId() {
         return productId;
@@ -17,8 +22,6 @@ public class OrderItem {
         this.productId = productId;
     }
 
-
-
     public String getQuantity() {
         return quantity;
     }
@@ -27,8 +30,6 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-
-
     public String getSellerId() {
         return sellerId;
     }
@@ -36,18 +37,4 @@ public class OrderItem {
     public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
     }
-
-    private String sellerId;
-
-    private Date createdAt;
-
-    private Date updatedAt;
-
-    private String orderItemId;
-
-    private String productId;
-
-    private String quantity;
-
-    private OrderStatus status;
 }
