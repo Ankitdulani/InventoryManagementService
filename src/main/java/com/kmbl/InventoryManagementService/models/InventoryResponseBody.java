@@ -10,13 +10,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ResponseBody {
+public class InventoryResponseBody {
     private InventoryOrderStatus inventoryOrderStatus;
-    private final List<ResponseObject> responseObjects = new ArrayList<>();
+    private final List<InventoryResponseObject> inventoryResponseObjects = new ArrayList<>();
 
-    public void addResponseObject(ResponseObject responseObject) {
+    public void addResponseObject(InventoryResponseObject inventoryresponseObject) {
 
-        responseObjects.add(responseObject);
+        inventoryResponseObjects.add(inventoryresponseObject);
     }
 
 

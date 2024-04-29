@@ -7,5 +7,5 @@ import lombok.Data;
 public class OrderRequestBody {
     private String productID;
     private String sellerID;
-    private int count;
+    private Integer count;
 }

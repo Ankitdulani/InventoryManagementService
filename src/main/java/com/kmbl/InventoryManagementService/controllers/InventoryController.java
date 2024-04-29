@@ -1,14 +1,10 @@
 package com.kmbl.InventoryManagementService.controllers;
 
 import com.kmbl.InventoryManagementService.exceptions.ResourceNotFoundException;
-import java.util.List;
-import java.util.Optional;
-
-import com.kmbl.InventoryManagementService.models.*;
-import org.springframework.http.MediaType;
+import com.kmbl.InventoryManagementService.exceptions.ServiceException;
 import com.kmbl.InventoryManagementService.models.Inventory;
+import com.kmbl.InventoryManagementService.models.InventoryResponseBody;
 import com.kmbl.InventoryManagementService.models.OrderRequestBody;
-import com.kmbl.InventoryManagementService.models.ResponseBody;
 import com.kmbl.InventoryManagementService.services.InventoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,17 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import com.kmbl.InventoryManagementService.models.Inventory;
-import com.kmbl.InventoryManagementService.services.InventoryService;
-
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -46,7 +31,7 @@ public class InventoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Inventory> getAllInventoryItemById(@PathVariable("id") String id){
+    public ResponseEntity<Inventory> getAllInventoryItemById(@PathVariable("id") String id) {
         try {
             Inventory inventoryItems = inventoryService.getInventoryItemById(id);
             return new ResponseEntity<>(inventoryItems, HttpStatus.OK);
@@ -73,7 +58,7 @@ public class InventoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Inventory> deleteInventoryItem(@PathVariable("id") String id){
+    public ResponseEntity<Inventory> deleteInventoryItem(@PathVariable("id") String id) {
         try {
             Inventory existingItem = inventoryService.getInventoryItemById(id);
             inventoryService.deleteInventory(existingItem.getId());
@@ -86,11 +71,15 @@ public class InventoryController {
     }
 
     @PostMapping("/updateInventory")
-    public ResponseEntity<ResponseBody> updateInventoryforOrderItems(@RequestBody List<OrderRequestBody> orderRequestBodies) {
-        ResponseBody responseItems = inventoryService.updateInventoryforOrder(orderRequestBodies);
-        if (responseItems == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<InventoryResponseBody> updateInventoryforOrderItems(@RequestBody List<OrderRequestBody> orderRequestBodies) {
+        try {
+            InventoryResponseBody responseItems = inventoryService.updateInventoryforOrder(orderRequestBodies);
+            if (responseItems == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(responseItems, HttpStatus.OK);
+        } catch (ServiceException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(responseItems, HttpStatus.OK);
     }
 }

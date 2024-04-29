@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ResponseObject {
-    private String status;
+public class InventoryResponseObject {
+    private String orderItemStatus;
     private InventoryOrderItem data;
-    private int count;
+    private int fullfillCount;
 }
