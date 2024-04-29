@@ -100,7 +100,7 @@ public class InventoryService {
                     }
                 }
             }
-            response.setInventoryOrderStatus(overallStatus);
+            response.setOrderStatus(overallStatus);
             return response;
 
     }
@@ -119,16 +119,19 @@ public class InventoryService {
     }
 
     public InventoryResponseObject getResponseObjectofUpdateInventory(Inventory inventoryFinal, OrderRequestBody orderRequestItems) {
-        Integer tempCount = 0;
         InventoryOrderStatus tempStatus = InventoryOrderStatus.FAILED_ORDER;
         if (inventoryFinal == null || inventoryFinal.getQuantity() == 0) {
             InventoryOrderItem tempInventoryOrderItem = new InventoryOrderItem(orderRequestItems.getProductID(), orderRequestItems.getSellerID(), String.valueOf(orderRequestItems.getCount()));
             InventoryResponseObject inventoryresponseObject = new InventoryResponseObject(String.valueOf(InventoryOrderStatus.FAILED_ORDER), tempInventoryOrderItem, 0);
             return inventoryresponseObject;
         }
-        inventoryFinal.setQuantity(orderRequestItems.getCount() < inventoryFinal.getQuantity() ? inventoryFinal.getQuantity() - orderRequestItems.getCount() : 0);
+        int fulfillment = Math.min(orderRequestItems.getCount(),inventoryFinal.getQuantity());
+        inventoryFinal.setQuantity( inventoryFinal.getQuantity() - fulfillment);
+        InventoryResponseObject inventoryresponseObject =
+                new InventoryResponseObject(String.valueOf((orderRequestItems.getCount() == fulfillment ) ?
+                        InventoryOrderStatus.COMPLETE_ORDER : InventoryOrderStatus.PARTIAL_ORDER),
+                        new InventoryOrderItem(orderRequestItems.getProductID(), orderRequestItems.getSellerID(), String.valueOf(orderRequestItems.getCount())), Math.min(inventoryFinal.getQuantity(), orderRequestItems.getCount()));
         inventoryRepository.save(inventoryFinal);
-        InventoryResponseObject inventoryresponseObject = new InventoryResponseObject(String.valueOf((tempCount == orderRequestItems.getCount()) ? InventoryOrderStatus.COMPLETE_ORDER : InventoryOrderStatus.PARTIAL_ORDER), new InventoryOrderItem(orderRequestItems.getProductID(), orderRequestItems.getSellerID(), String.valueOf(orderRequestItems.getCount())), Math.min(inventoryFinal.getQuantity(), orderRequestItems.getCount()));
         return inventoryresponseObject;
 
     }

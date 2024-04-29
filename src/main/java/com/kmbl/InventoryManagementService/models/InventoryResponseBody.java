@@ -1,5 +1,6 @@
 package com.kmbl.InventoryManagementService.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,13 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class InventoryResponseBody {
-    private InventoryOrderStatus inventoryOrderStatus;
-    private final List<InventoryResponseObject> inventoryResponseObjects = new ArrayList<>();
+    private InventoryOrderStatus orderStatus;
+    private final List<InventoryResponseObject> orderItemStatus = new ArrayList<>();
 
+    @JsonIgnore
     public void addResponseObject(InventoryResponseObject inventoryresponseObject) {
-
-        inventoryResponseObjects.add(inventoryresponseObject);
+        orderItemStatus.add(inventoryresponseObject);
     }
-
-
 }

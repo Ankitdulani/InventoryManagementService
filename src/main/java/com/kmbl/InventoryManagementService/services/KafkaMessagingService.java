@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kmbl.InventoryManagementService.exceptions.ServiceException;
 import com.kmbl.InventoryManagementService.models.kafka.Message;
 import com.kmbl.InventoryManagementService.models.kafka.CancelOrderMessage;
+import com.kmbl.InventoryManagementService.models.kafka.PaymentMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -54,22 +55,6 @@ public class KafkaMessagingService implements MessagingService{
 
         try {
             log.info("Message received: {}", kafkaMessage);
-            CancelOrderMessage message = objectMapper.readValue(kafkaMessage, CancelOrderMessage.class);
-            inventoryService.freeInventory(message);
-
-        }catch ( JsonProcessingException   ex){
-            log.error(String.format(errorLogFormat,new Date().toString(), INCORRECT_FORMAT),ex);
-        }catch (ServiceException ex){
-            log.error(String.format(errorLogFormatWithMessage,new Date().toString(), MISSING_ORDER_ITEM,ex.getMessage() ),ex);
-        }
-    }
-
-    @KafkaListener(topics = "payments-queue",
-            groupId = "consumerGroup-" + "#{T(java.util.UUID).randomUUID()}",
-            autoStartup = "false")
-    public void paymentFailure(@Payload String kafkaMessage)  {
-
-        try {
             CancelOrderMessage message = objectMapper.readValue(kafkaMessage, CancelOrderMessage.class);
             inventoryService.freeInventory(message);
 
